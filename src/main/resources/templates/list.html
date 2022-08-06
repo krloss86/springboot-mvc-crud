@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+	crossorigin="anonymous">
+<title>Clase 6 : spring mvc</title>
+</head>
+<body>
+	<main>
+	<div class="container-fluid">
+		<div class="row d-flex justify-content-center mt-4" >
+			<div class="col-4">
+				<h1>Alta Cupones</h1>
+				<form
+					novalidate
+					th:class="${#fields.hasErrors()}? 'row g-1 needs-validation was-validated' : 'row g-1'"
+					action="#"
+					th:action="@{/cupon/save}"
+					th:object="${CUPON}"
+					method="post"
+				>
+						<input type="hidden"
+							th:field="*{id}"
+							id="id"
+							class="form-control"
+						>
+					<div class="form-group">
+						<label for="codigo">Código</label>
+						<input type="text"
+							th:field="*{codigo}"
+							id="codigo"
+							class="form-control"
+							required
+						>
+					 	<div th:if="${#fields.hasErrors('codigo')}" 
+			        		th:errors="*{codigo}" 
+			        		th:class="invalid-feedback">
+			        	</div>
+					</div>
+					<div class="form-group">
+						<label for="nombre">Nombre</label>
+						<input type="text"
+							th:field="*{nombre}"
+							id="nombre"
+							class="form-control"
+							required
+						>
+					</div>
+					<div class="form-group">
+						<label for="fvdesde" class="control-label col-sm-4">
+							F. Vigencia Desde</label>
+						<input 
+							id="fvdesde"
+							type="date"
+							th:field="*{fechaVigenciaDesde}"
+							class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="fvdesde" class="control-label col-sm-4">
+							F. Vigencia hasta</label>
+						<input 
+							id="fvdesde"
+							type="date"
+							th:field="*{fechaVigenciaHasta}"
+							class="form-control">
+					</div>
+					<div class="form-group">
+						<label for="descuento" class="control-label col-sm-4">
+							Descuento</label>
+						<input 
+							id="descuento"
+							type="number"
+							th:field="*{descuento}"
+							class="form-control">
+					</div>	
+					<button class="btn btn-success">
+						Guardar
+					</button>					
+				</form>
+			</div>
+			<div class="col-8">
+				<h1>Listado Cupones</h1>
+				<table class="table">
+					<thead>
+						<th scope="col">ID</th>
+						<th scope="col">NOMBRE</th>
+						<th scope="col">CÓDIGO</th>
+						<th scope="col">DESCUENTO</th>
+						<th scope="col">F.V.DESDE</th>
+						<th scope="col">F.V.HASTA</th>
+						<th scope="col">&nbsp;</th>
+					</thead>
+
+					<tbody>
+						<tr th:each="cupon : ${CUPONES}">
+							<td th:text="${cupon.id}">1</td>
+							<td th:text="${cupon.nombre}">CUPON 1</td>
+							<td th:text="${cupon.codigo}">ABC123</td>
+							<td th:text="${cupon.descuento}">15%</td>
+							<td th:text="${cupon.fechaVigenciaDesde}">01/01/2022</td>
+							<td th:text="${cupon.fechaVigenciaHasta}">31/12/2022</td>
+							<td>
+								<a class="btn btn-danger" 
+									role="button"
+									th:href="@{'/cupon/delete/'+ ${cupon.id}} ">
+									Eliminar
+								</a>
+								<a class="btn btn-secondary" role="button"
+									th:href="@{'/cupon/preedit/'+ ${cupon.id}} ">
+									Editar
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	</main>
+</body>
+</html>
